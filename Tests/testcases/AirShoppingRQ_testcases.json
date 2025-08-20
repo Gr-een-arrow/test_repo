@@ -1,1 +1,125 @@
-[{'test_case_id': 'TC_001', 'description': 'Search with one adult passenger only', 'test_type': 'Positive', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing one adult (PTC=ADT)', 'Send POST request to AirShoppingRQ endpoint', 'Validate HTTP 200 response'], 'expected_result': 'API returns 200 OK with flight offers list', 'priority': 'High'}, {'test_case_id': 'TC_002', 'description': 'Search with one adult and one child passenger', 'test_type': 'Positive', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing one adult (PTC=ADT) and one child (PTC=CHD)', 'Send POST request to AirShoppingRQ endpoint', 'Validate HTTP 200 response'], 'expected_result': 'API returns 200 OK with flight offers list', 'priority': 'High'}, {'test_case_id': 'TC_003', 'description': 'Search with multiple adults and children', 'test_type': 'Positive', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing two adults (PTC=ADT) and two children (PTC=CHD)', 'Send POST request to AirShoppingRQ endpoint', 'Validate HTTP 200 response'], 'expected_result': 'API returns 200 OK with flight offers list', 'priority': 'Medium'}, {'test_case_id': 'TC_004', 'description': 'Search with adult and young passenger', 'test_type': 'Positive', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing one adult (PTC=ADT) and one young (PTC=GBE)', 'Send POST request to AirShoppingRQ endpoint', 'Validate HTTP 200 response'], 'expected_result': 'API returns 200 OK with flight offers list', 'priority': 'Medium'}, {'test_case_id': 'TC_005', 'description': 'Search with empty PaxList', 'test_type': 'Negative', 'test_steps': ['Prepare AirShoppingRQ payload with empty PaxList', 'Send POST request to AirShoppingRQ endpoint'], 'expected_result': 'API returns 400 Bad Request with error message indicating at least one adult passenger is required', 'priority': 'High'}, {'test_case_id': 'TC_006', 'description': 'Search with only child passengers', 'test_type': 'Negative', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing only children (PTC=CHD)', 'Send POST request to AirShoppingRQ endpoint'], 'expected_result': 'API returns 400 Bad Request with error message indicating at least one adult passenger is required', 'priority': 'High'}, {'test_case_id': 'TC_007', 'description': 'Search with only young passengers', 'test_type': 'Negative', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing only young passengers (PTC=GBE)', 'Send POST request to AirShoppingRQ endpoint'], 'expected_result': 'API returns 400 Bad Request with error message indicating at least one adult passenger is required', 'priority': 'High'}, {'test_case_id': 'TC_008', 'description': 'Search with missing PaxList element', 'test_type': 'Negative', 'test_steps': ['Prepare AirShoppingRQ payload without PaxList element', 'Send POST request to AirShoppingRQ endpoint'], 'expected_result': 'API returns 400 Bad Request with error message indicating PaxList is required', 'priority': 'High'}, {'test_case_id': 'TC_009', 'description': 'Search with adult passenger having invalid PTC value', 'test_type': 'Negative', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing one passenger with PTC=XXX instead of ADT', 'Send POST request to AirShoppingRQ endpoint'], 'expected_result': 'API returns 400 Bad Request with error message indicating invalid passenger type code', 'priority': 'Medium'}, {'test_case_id': 'TC_010', 'description': 'Search with duplicate adult passenger IDs', 'test_type': 'Positive', 'test_steps': ['Prepare AirShoppingRQ payload with PaxList containing two adults with same PaxID=ADULT_1', 'Send POST request to AirShoppingRQ endpoint', 'Validate HTTP 200 response'], 'expected_result': 'API returns 200 OK with flight offers list', 'priority': 'Low'}]
+{
+  "test_cases": [
+    {
+      "test_case_id": "TC_001",
+      "description": "Valid passenger list with all supported passenger types",
+      "test_type": "Positive",
+      "test_steps": [
+        "Send AirShoppingRQ with PaxList containing ADT, CHD, GBE, INF, SNR",
+        "Ensure each Pax has unique PaxID and valid PTC",
+        "Verify INF is linked to ADT"
+      ],
+      "expected_result": "Request is accepted with valid passenger list",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_002",
+      "description": "Maximum one INF per ADT validation",
+      "test_type": "Positive",
+      "test_steps": [
+        "Send AirShoppingRQ with one ADT and one INF",
+        "Verify INF is correctly associated with ADT"
+      ],
+      "expected_result": "Request is accepted with valid INF-ADT relationship",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_003",
+      "description": "Multiple INFs with different ADTs",
+      "test_type": "Positive",
+      "test_steps": [
+        "Send AirShoppingRQ with two ADTs each having one INF",
+        "Verify INF-ADT relationships are valid"
+      ],
+      "expected_result": "Request is accepted with valid INF-ADT relationships",
+      "priority": "Medium",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_004",
+      "description": "CHD and GBE require ADT",
+      "test_type": "Negative",
+      "test_steps": [
+        "Send AirShoppingRQ with CHD and GBE but no ADT",
+        "Verify validation occurs"
+      ],
+      "expected_result": "Request is rejected with missing ADT error",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_005",
+      "description": "Invalid PTC code rejection",
+      "test_type": "Negative",
+      "test_steps": [
+        "Send AirShoppingRQ with Pax having PTC=XYZ",
+        "Verify validation occurs"
+      ],
+      "expected_result": "Request is rejected with invalid PTC error",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_006",
+      "description": "Duplicate PaxID validation",
+      "test_type": "Negative",
+      "test_steps": [
+        "Send AirShoppingRQ with two Pax elements having same PaxID",
+        "Verify validation occurs"
+      ],
+      "expected_result": "Request is rejected with duplicate PaxID error",
+      "priority": "Medium",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_007",
+      "description": "No adult in passenger list",
+      "test_type": "Negative",
+      "test_steps": [
+        "Send AirShoppingRQ with only CHD and INF",
+        "Verify validation occurs"
+      ],
+      "expected_result": "Request is rejected with missing ADT error",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_008",
+      "description": "Multiple INFs assigned to single ADT",
+      "test_type": "Negative",
+      "test_steps": [
+        "Send AirShoppingRQ with one ADT and two INFs",
+        "Verify validation occurs"
+      ],
+      "expected_result": "Request is rejected with INF limit exceeded error",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_009",
+      "description": "Valid SNR (Senior) passenger",
+      "test_type": "Positive",
+      "test_steps": [
+        "Send AirShoppingRQ with SNR passenger",
+        "Verify SNR is accepted as valid PTC"
+      ],
+      "expected_result": "Request is accepted with valid SNR passenger",
+      "priority": "Medium",
+      "change_note": "UNCHANGED"
+    },
+    {
+      "test_case_id": "TC_010",
+      "description": "Minimum required adult passenger",
+      "test_type": "Positive",
+      "test_steps": [
+        "Send AirShoppingRQ with one ADT and no other passengers",
+        "Verify validation passes"
+      ],
+      "expected_result": "Request is accepted with valid ADT passenger",
+      "priority": "High",
+      "change_note": "UNCHANGED"
+    }
+  ]
+}
