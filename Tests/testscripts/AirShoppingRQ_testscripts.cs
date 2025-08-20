@@ -1,198 +1,23 @@
-using NUnit.Framework;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+{'test_case_id': 'TC_001', 'description': 'Valid passenger list with all supported passenger types', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with PaxList containing ADT, CHD, GBE, INF, SNR', 'Ensure each Pax has unique PaxID and valid PTC', 'Verify INF is linked to ADT'], 'expected_result': 'Request is accepted with valid passenger list', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_001_ValidPassengerListWithAllSupportedPassengerTypes_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" },\n            new { PaxID = "CHD1", PTC = "CHD" },\n            new { PaxID = "GBE1", PTC = "GBE" },\n            new { PaxID = "INF1", PTC = "INF" },\n            new { PaxID = "SNR1", PTC = "SNR" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-[TestFixture]
-public class AirShoppingTests
-{
-    private HttpClient _client;
+{'test_case_id': 'TC_002', 'description': 'Maximum one INF per ADT validation', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with one ADT and one INF', 'Verify INF is correctly associated with ADT'], 'expected_result': 'Request is accepted with valid INF-ADT relationship', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_002_MaximumOneInfantPerAdultValidation_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" },\n            new { PaxID = "INF1", PTC = "INF" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-    [SetUp]
-    public void Setup()
-    {
-        _client = new HttpClient();
-    }
+{'test_case_id': 'TC_003', 'description': 'Multiple INFs with different ADTs', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with two ADTs each having one INF', 'Verify INF-ADT relationships are valid'], 'expected_result': 'Request is accepted with valid INF-ADT relationships', 'priority': 'Medium', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_003_MultipleInfantsWithDifferentAdults_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" },\n            new { PaxID = "INF1", PTC = "INF" },\n            new { PaxID = "ADT2", PTC = "ADT" },\n            new { PaxID = "INF2", PTC = "INF" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-    [TearDown]
-    public void Teardown()
-    {
-        _client?.Dispose();
-    }
+{'test_case_id': 'TC_004', 'description': 'CHD and GBE require ADT', 'test_type': 'Negative', 'test_steps': ['Send AirShoppingRQ with CHD and GBE but no ADT', 'Verify validation occurs'], 'expected_result': 'Request is rejected with missing ADT error', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_004_ChildAndYouthRequireAdult_ShouldReturn400()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "CHD1", PTC = "CHD" },\n            new { PaxID = "GBE1", PTC = "GBE" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_001_ValidPassengerListWithAllSupportedPassengerTypes_ShouldReturn200()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" },
-                new { PaxID = "CHD1", PTC = "CHD" },
-                new { PaxID = "GBE1", PTC = "GBE" },
-                new { PaxID = "INF1", PTC = "INF" },
-                new { PaxID = "SNR1", PTC = "SNR" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-    }
+{'test_case_id': 'TC_005', 'description': 'Invalid PTC code rejection', 'test_type': 'Negative', 'test_steps': ['Send AirShoppingRQ with Pax having PTC=XYZ', 'Verify validation occurs'], 'expected_result': 'Request is rejected with invalid PTC error', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_005_InvalidPTCCodeRejection_ShouldReturn400()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "PAX1", PTC = "XYZ" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_002_MaximumOneInfantPerAdultValidation_ShouldReturn200()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" },
-                new { PaxID = "INF1", PTC = "INF" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-    }
+{'test_case_id': 'TC_006', 'description': 'Duplicate PaxID validation', 'test_type': 'Negative', 'test_steps': ['Send AirShoppingRQ with two Pax elements having same PaxID', 'Verify validation occurs'], 'expected_result': 'Request is rejected with duplicate PaxID error', 'priority': 'Medium', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_006_DuplicatePaxIDValidation_ShouldReturn400()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "PAX1", PTC = "ADT" },\n            new { PaxID = "PAX1", PTC = "CHD" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_003_MultipleInfantsWithDifferentAdults_ShouldReturn200()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" },
-                new { PaxID = "INF1", PTC = "INF" },
-                new { PaxID = "ADT2", PTC = "ADT" },
-                new { PaxID = "INF2", PTC = "INF" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-    }
+{'test_case_id': 'TC_007', 'description': 'No adult in passenger list', 'test_type': 'Negative', 'test_steps': ['Send AirShoppingRQ with only CHD and INF', 'Verify validation occurs'], 'expected_result': 'Request is rejected with missing ADT error', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_007_NoAdultInPassengerList_ShouldReturn400()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "CHD1", PTC = "CHD" },\n            new { PaxID = "INF1", PTC = "INF" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_004_ChildAndYouthRequireAdult_ShouldReturn400()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "CHD1", PTC = "CHD" },
-                new { PaxID = "GBE1", PTC = "GBE" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-    }
+{'test_case_id': 'TC_008', 'description': 'Multiple INFs assigned to single ADT', 'test_type': 'Negative', 'test_steps': ['Send AirShoppingRQ with one ADT and two INFs', 'Verify validation occurs'], 'expected_result': 'Request is rejected with INF limit exceeded error', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_008_MultipleInfantsAssignedToSingleAdult_ShouldReturn400()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" },\n            new { PaxID = "INF1", PTC = "INF" },\n            new { PaxID = "INF2", PTC = "INF" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_005_InvalidPTCCodeRejection_ShouldReturn400()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "PAX1", PTC = "XYZ" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-    }
+{'test_case_id': 'TC_009', 'description': 'Valid SNR (Senior) passenger', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with SNR passenger', 'Verify SNR is accepted as valid PTC'], 'expected_result': 'Request is accepted with valid SNR passenger', 'priority': 'Medium', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_009_ValidSeniorPassenger_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" },\n            new { PaxID = "SNR1", PTC = "SNR" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_006_DuplicatePaxIDValidation_ShouldReturn400()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "PAX1", PTC = "ADT" },
-                new { PaxID = "PAX1", PTC = "CHD" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-    }
+{'test_case_id': 'TC_010', 'description': 'Minimum required adult passenger', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with one ADT and no other passengers', 'Verify validation passes'], 'expected_result': 'Request is accepted with valid ADT passenger', 'priority': 'High', 'change_note': 'UNCHANGED', 'script': '[Test]\npublic async Task TC_010_MinimumRequiredAdultPassenger_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_007_NoAdultInPassengerList_ShouldReturn400()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "CHD1", PTC = "CHD" },
-                new { PaxID = "INF1", PTC = "INF" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-    }
+{'test_case_id': 'TC_011', 'description': 'Valid origin, destination and travel dates in AirShoppingRQ', 'test_type': 'Positive', 'test_steps': ['Send AirShoppingRQ with OriginDestCriteria containing LHR-JNB on 2025-05-07 and JNB-LHR on 2025-05-14', 'Verify OriginDepCriteria and DestArrivalCriteria are correctly populated', 'Verify CabinTypeCode=5 and PrefLevelCode=Required are present'], 'expected_result': 'Request is accepted with valid origin, destination and travel dates', 'priority': 'High', 'change_note': 'NEW: covers origin, destination and travel dates acceptance criteria', 'script': '[Test]\npublic async Task TC_011_ValidOriginDestinationAndTravelDates_ShouldReturn200()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" }\n        },\n        OriginDestCriteria = new[]\n        {\n            new\n            {\n                OriginDepCriteria = new { IATA_LocationCode = "LHR", Date = "2025-05-07" },\n                DestArrivalCriteria = new { IATA_LocationCode = "JNB" },\n                CabinTypeCode = "5",\n                PrefLevelCode = "Required"\n            },\n            new\n            {\n                OriginDepCriteria = new { IATA_LocationCode = "JNB", Date = "2025-05-14" },\n                DestArrivalCriteria = new { IATA_LocationCode = "LHR" },\n                CabinTypeCode = "5",\n                PrefLevelCode = "Required"\n            }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n}'}
 
-    [Test]
-    public async Task TC_008_MultipleInfantsAssignedToSingleAdult_ShouldReturn400()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" },
-                new { PaxID = "INF1", PTC = "INF" },
-                new { PaxID = "INF2", PTC = "INF" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
-    [Test]
-    public async Task TC_009_ValidSeniorPassenger_ShouldReturn200()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" },
-                new { PaxID = "SNR1", PTC = "SNR" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-    }
-
-    [Test]
-    public async Task TC_010_MinimumRequiredAdultPassenger_ShouldReturn200()
-    {
-        var payload = new
-        {
-            PaxList = new[]
-            {
-                new { PaxID = "ADT1", PTC = "ADT" }
-            }
-        };
-        var json = JsonConvert.SerializeObject(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("AirShoppingRQ", content);
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-    }
-}
+{'test_case_id': 'TC_012', 'description': 'System returns list of available flight offers', 'test_type': 'Positive', 'test_steps': ['Send valid AirShoppingRQ with origin, destination, dates and passenger list', 'Verify response contains list of flight offers', 'Verify each offer includes price, airline, and flight times'], 'expected_result': 'Response contains list of flight offers with price, airline, and flight times', 'priority': 'High', 'change_note': 'NEW: covers flight offers list and offer details acceptance criteria', 'script': '[Test]\npublic async Task TC_012_SystemReturnsListOfAvailableFlightOffers_ShouldReturn200WithOffers()\n{\n    var payload = new\n    {\n        PaxList = new[]\n        {\n            new { PaxID = "ADT1", PTC = "ADT" }\n        },\n        OriginDestCriteria = new[]\n        {\n            new\n            {\n                OriginDepCriteria = new { IATA_LocationCode = "LHR", Date = "2025-05-07" },\n                DestArrivalCriteria = new { IATA_LocationCode = "JNB" },\n                CabinTypeCode = "5",\n                PrefLevelCode = "Required"\n            }\n        }\n    };\n    var json = JsonConvert.SerializeObject(payload);\n    var content = new StringContent(json, Encoding.UTF8, "application/json");\n    var response = await _client.PostAsync("AirShoppingRQ", content);\n    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    var responseBody = await response.Content.ReadAsStringAsync();\n    dynamic result = JsonConvert.DeserializeObject(responseBody);\n    Assert.IsNotNull(result.Offers);\n    Assert.Greater(result.Offers.Count, 0);\n    foreach (var offer in result.Offers)\n    {\n        Assert.IsNotNull(offer.Price);\n        Assert.IsNotNull(offer.Airline);\n        Assert.IsNotNull(offer.FlightTimes);\n    }\n}'}
