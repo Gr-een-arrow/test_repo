@@ -1,1 +1,200 @@
-['using NUnit.Framework;\nusing System.Net;\nusing System.Net.Http;\nusing System.Text;\nusing System.Threading.Tasks;\nusing Newtonsoft.Json;\n\n[TestFixture]\npublic class AirShoppingTests\n{\n    private HttpClient _client;\n\n    [SetUp]\n    public void Setup()\n    {\n        _client = new HttpClient();\n        _client.BaseAddress = new System.Uri("https://api.example.com/");\n    }\n\n    [Test]\n    public async Task TC_001_SearchWithOneAdultPassengerOnly_ShouldReturn200()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "ADT" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_002_SearchWithOneAdultAndOneChild_ShouldReturn200()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "ADT" },\n                new { PaxID = "CHILD_1", PTC = "CHD" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_003_SearchWithMultipleAdultsAndChildren_ShouldReturn200()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "ADT" },\n                new { PaxID = "ADULT_2", PTC = "ADT" },\n                new { PaxID = "CHILD_1", PTC = "CHD" },\n                new { PaxID = "CHILD_2", PTC = "CHD" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_004_SearchWithAdultAndYoungPassenger_ShouldReturn200()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "ADT" },\n                new { PaxID = "YOUNG_1", PTC = "GBE" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_005_SearchWithEmptyPaxList_ShouldReturn400()\n    {\n        var payload = new { PaxList = new object[] { } };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_006_SearchWithOnlyChildPassengers_ShouldReturn400()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "CHILD_1", PTC = "CHD" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_007_SearchWithOnlyYoungPassengers_ShouldReturn400()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "YOUNG_1", PTC = "GBE" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_008_SearchWithMissingPaxList_ShouldReturn400()\n    {\n        var payload = new { };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_009_SearchWithInvalidPTC_ShouldReturn400()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "XXX" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);\n    }\n\n    [Test]\n    public async Task TC_010_SearchWithDuplicateAdultPassengerIDs_ShouldReturn200()\n    {\n        var payload = new\n        {\n            PaxList = new[]\n            {\n                new { PaxID = "ADULT_1", PTC = "ADT" },\n                new { PaxID = "ADULT_1", PTC = "ADT" }\n            }\n        };\n        var json = JsonConvert.SerializeObject(payload);\n        var content = new StringContent(json, Encoding.UTF8, "application/json");\n        var response = await _client.PostAsync("AirShoppingRQ", content);\n        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);\n    }\n\n    [TearDown]\n    public void Teardown()\n    {\n        _client?.Dispose();\n    }\n}']
+using NUnit.Framework;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Linq;
+
+[TestFixture]
+public class AirShoppingTests
+{
+    private HttpClient _client;
+
+    [SetUp]
+    public void Setup()
+    {
+        _client = new HttpClient();
+        _client.BaseAddress = new System.Uri("https://api.example.com/");
+    }
+
+    [Test]
+    public async Task TC_001_ValidPassengerListWithAllSupportedPassengerTypes_ShouldReturn200()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" },
+                new { PaxID = "CHD1", PTC = "CHD" },
+                new { PaxID = "GBE1", PTC = "GBE" },
+                new { PaxID = "INF1", PTC = "INF" },
+                new { PaxID = "SNR1", PTC = "SNR" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_002_MaximumOneInfantPerAdultValidation_ShouldReturn200()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" },
+                new { PaxID = "INF1", PTC = "INF" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_003_MultipleInfantsWithDifferentAdults_ShouldReturn200()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" },
+                new { PaxID = "INF1", PTC = "INF" },
+                new { PaxID = "ADT2", PTC = "ADT" },
+                new { PaxID = "INF2", PTC = "INF" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_004_ChildAndYouthRequireAdult_ShouldReturn400()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "CHD1", PTC = "CHD" },
+                new { PaxID = "GBE1", PTC = "GBE" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_005_InvalidPTCCodeRejection_ShouldReturn400()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "PAX1", PTC = "XYZ" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_006_DuplicatePaxIDValidation_ShouldReturn400()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "PAX1", PTC = "ADT" },
+                new { PaxID = "PAX1", PTC = "CHD" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_007_NoAdultInPassengerList_ShouldReturn400()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "CHD1", PTC = "CHD" },
+                new { PaxID = "INF1", PTC = "INF" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_008_MultipleInfantsAssignedToSingleAdult_ShouldReturn400()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" },
+                new { PaxID = "INF1", PTC = "INF" },
+                new { PaxID = "INF2", PTC = "INF" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_009_ValidSeniorPassenger_ShouldReturn200()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" },
+                new { PaxID = "SNR1", PTC = "SNR" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Test]
+    public async Task TC_010_MinimumRequiredAdultPassenger_ShouldReturn200()
+    {
+        var payload = new
+        {
+            PaxList = new[]
+            {
+                new { PaxID = "ADT1", PTC = "ADT" }
+            }
+        };
+        var json = JsonConvert.SerializeObject(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("AirShoppingRQ", content);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [TearDown]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+}
