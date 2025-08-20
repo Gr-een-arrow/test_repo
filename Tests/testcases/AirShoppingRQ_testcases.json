@@ -119,5 +119,31 @@
     "expected_result": "Request is accepted with valid ADT passenger",
     "priority": "High",
     "change_note": "UNCHANGED"
+  },
+  {
+    "test_case_id": "TC_011",
+    "description": "Valid origin, destination and travel dates in AirShoppingRQ",
+    "test_type": "Positive",
+    "test_steps": [
+      "Send AirShoppingRQ with OriginDestCriteria containing LHR-JNB on 2025-05-07 and JNB-LHR on 2025-05-14",
+      "Verify OriginDepCriteria and DestArrivalCriteria are correctly populated",
+      "Verify CabinTypeCode=5 and PrefLevelCode=Required are present"
+    ],
+    "expected_result": "Request is accepted with valid origin, destination and travel dates",
+    "priority": "High",
+    "change_note": "NEW: covers origin, destination and travel dates acceptance criteria"
+  },
+  {
+    "test_case_id": "TC_012",
+    "description": "System returns list of available flight offers",
+    "test_type": "Positive",
+    "test_steps": [
+      "Send valid AirShoppingRQ with origin, destination, dates and passenger list",
+      "Verify response contains list of flight offers",
+      "Verify each offer includes price, airline, and flight times"
+    ],
+    "expected_result": "Response contains list of flight offers with price, airline, and flight times",
+    "priority": "High",
+    "change_note": "NEW: covers flight offers list and offer details acceptance criteria"
   }
 ]
