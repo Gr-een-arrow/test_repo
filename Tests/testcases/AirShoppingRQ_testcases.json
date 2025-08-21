@@ -1,0 +1,181 @@
+[
+  {
+    "test_case_id": "TC_001",
+    "description": "Valid round-trip search with correct IATA codes and future dates",
+    "test_type": "Positive",
+    "test_steps": [
+      "Set OriginDepCriteria.IATA_LocationCode to 'LHR'",
+      "Set OriginDepCriteria.Date to '2025-05-07'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'JNB'",
+      "Set return OriginDepCriteria.IATA_LocationCode to 'JNB'",
+      "Set return OriginDepCriteria.Date to '2025-05-14'",
+      "Set return DestArrivalCriteria.IATA_LocationCode to 'LHR'",
+      "Set CabinTypeCode to '5' and PrefLevelCode to 'Required'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 200 with non-empty list of flight offers for both legs",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_002",
+    "description": "Valid one-way search with correct IATA codes and future date",
+    "test_type": "Positive",
+    "test_steps": [
+      "Include only one OriginDestCriteria",
+      "Set OriginDepCriteria.IATA_LocationCode to 'LAX'",
+      "Set OriginDepCriteria.Date to '2025-06-01'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'NYC'",
+      "Set CabinTypeCode to '5' and PrefLevelCode to 'Required'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 200 with non-empty list of flight offers for the single leg",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_003",
+    "description": "Search with lowercase IATA codes",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.IATA_LocationCode to 'lhr'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'jnb'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating invalid IATA format",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_004",
+    "description": "Search with invalid IATA code length",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.IATA_LocationCode to 'LH'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'JN'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating invalid IATA code",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_005",
+    "description": "Search with past travel date",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.Date to '2023-01-01'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating past date not allowed",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_006",
+    "description": "Search with invalid date format",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.Date to '07-05-2025'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating invalid date format",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_007",
+    "description": "Search with missing required CabinTypeCode",
+    "test_type": "Negative",
+    "test_steps": [
+      "Omit CabinTypeCode element",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating missing required field",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_008",
+    "description": "Search with invalid CabinTypeCode value",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set CabinTypeCode to '99'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating invalid cabin type",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_009",
+    "description": "Search with same origin and destination",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.IATA_LocationCode to 'LHR'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'LHR'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating origin and destination cannot be the same",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_010",
+    "description": "Search with missing OriginDepCriteria",
+    "test_type": "Negative",
+    "test_steps": [
+      "Omit OriginDepCriteria element",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating missing required field",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_011",
+    "description": "Search with missing DestArrivalCriteria",
+    "test_type": "Negative",
+    "test_steps": [
+      "Omit DestArrivalCriteria element",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating missing required field",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_012",
+    "description": "Search with return date before departure date",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set first OriginDepCriteria.Date to '2025-05-14'",
+      "Set return OriginDepCriteria.Date to '2025-05-07'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 400 or 422 with error indicating invalid date sequence",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_013",
+    "description": "Search with valid but non-existent IATA codes",
+    "test_type": "Negative",
+    "test_steps": [
+      "Set OriginDepCriteria.IATA_LocationCode to 'XXX'",
+      "Set DestArrivalCriteria.IATA_LocationCode to 'YYY'",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 200 with empty flight offers list or 404 with not found error",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_014",
+    "description": "Search with multiple cabin type preferences",
+    "test_type": "Positive",
+    "test_steps": [
+      "Add multiple CabinType elements with different CabinTypeCode values (e.g., 5, 6, 7)",
+      "POST AirShoppingRQ"
+    ],
+    "expected_result": "HTTP 200 with flight offers matching any of the specified cabin types",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_015",
+    "description": "Search with empty request body",
+    "test_type": "Negative",
+    "test_steps": [
+      "Send POST AirShoppingRQ with empty body"
+    ],
+    "expected_result": "HTTP 400 with error indicating invalid or missing request body",
+    "priority": "High"
+  }
+]
