@@ -1,0 +1,188 @@
+[
+  {
+    "test_case_id": "TC_001",
+    "description": "Valid search with all required parameters returns flight offers",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=NYC, departureDate=2024-12-01, returnDate=2024-12-08",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate response contains at least one flight offer"
+    ],
+    "expected_result": "Response contains list of flight offers with price, airline, and flight times",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_002",
+    "description": "One-way trip search with valid parameters",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LHR, destination=CDG, departureDate=2024-11-15, omit returnDate",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate response contains outbound flights only"
+    ],
+    "expected_result": "Response contains one-way flight offers",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_003",
+    "description": "Search with IATA city codes instead of airport codes",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=NYC (city code), destination=LON (city code), departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate response includes flights from multiple airports in the cities"
+    ],
+    "expected_result": "Response contains flights from all airports in the specified cities",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_004",
+    "description": "Missing origin parameter returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with destination=JFK, departureDate=2024-12-01, omit origin",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'origin is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_005",
+    "description": "Missing destination parameter returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, departureDate=2024-12-01, omit destination",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'destination is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_006",
+    "description": "Missing departure date parameter returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=NYC, omit departureDate",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'departureDate is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_007",
+    "description": "Invalid date format returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=NYC, departureDate=01-12-2024 (DD-MM-YYYY format)",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'invalid date format, use YYYY-MM-DD'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_008",
+    "description": "Past departure date returns no flights",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=NYC, departureDate=2020-01-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate response contains empty flight offers list"
+    ],
+    "expected_result": "Response contains empty flight offers array",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_009",
+    "description": "Invalid IATA code format returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LOSANGELES, destination=NEWYORK, departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'invalid IATA code format'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_010",
+    "description": "Return date before departure date returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=NYC, departureDate=2024-12-08, returnDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'returnDate must be after departureDate'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_011",
+    "description": "Search with special characters in city names returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=L@X, destination=NYC, departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'invalid characters in origin'",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_012",
+    "description": "Response includes all required fields for each flight offer",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=SFO, destination=BOS, departureDate=2024-12-15",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "For each flight offer, verify presence of price, airline, departureTime, arrivalTime"
+    ],
+    "expected_result": "Every flight offer contains price, airline, and flight times",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_013",
+    "description": "Search with numeric IATA codes returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=123, destination=456, departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'invalid IATA code format'",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_014",
+    "description": "Case insensitive IATA codes are accepted",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=lax, destination=nyc, departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate response contains flight offers"
+    ],
+    "expected_result": "Response contains flight offers regardless of case",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_015",
+    "description": "Search with same origin and destination returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare AirShoppingRQ payload with origin=LAX, destination=LAX, departureDate=2024-12-01",
+      "Send POST request to AirShoppingRQ endpoint",
+      "Verify HTTP 400 response"
+    ],
+    "expected_result": "Error message indicates 'origin and destination cannot be the same'",
+    "priority": "Medium"
+  }
+]
