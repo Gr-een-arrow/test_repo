@@ -1,0 +1,141 @@
+[
+  {
+    "test_case_id": "TC_001",
+    "description": "Valid single adult passenger request returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include 1 adult passenger",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response"
+    ],
+    "expected_result": "Response contains totalPrice field with numeric value > 0 matching the offer",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_002",
+    "description": "Valid multiple passenger types (adult + child) returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include 2 adults and 1 child passenger",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response"
+    ],
+    "expected_result": "Response contains totalPrice field with numeric value > 0 and includes passenger breakdown",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_003",
+    "description": "Missing offer ID in request returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload without offer ID field",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'offerId is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_004",
+    "description": "Invalid offer ID format returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with offer ID as empty string",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'Invalid offerId format'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_005",
+    "description": "Non-existent offer ID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with offer ID 'INVALID123'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 404 Not Found with error message 'Offer not found'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_006",
+    "description": "Valid offer with expired timestamp returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid but expired offer ID",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 410 Gone with error message 'Offer expired'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_007",
+    "description": "Missing passenger details returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Omit passenger details",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'Passenger details required'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_008",
+    "description": "Zero passengers in request returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include passengers array with 0 passengers",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'At least one passenger required'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_009",
+    "description": "Valid offer with special characters in offer ID returns price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with offer ID containing hyphens and numbers",
+      "Include 1 adult passenger",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "Response contains totalPrice field with numeric value > 0",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_010",
+    "description": "Malformed JSON payload returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Send POST request to OfferPriceRQ endpoint with malformed JSON",
+      "Content-Type header set to application/json"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'Invalid JSON format'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_011",
+    "description": "Valid offer with maximum passengers (9) returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include 9 adult passengers",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "Response contains totalPrice field with numeric value > 0",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_012",
+    "description": "Unsupported HTTP method returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Send GET request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 405 Method Not Allowed with Allow header containing POST",
+    "priority": "Low"
+  }
+]
