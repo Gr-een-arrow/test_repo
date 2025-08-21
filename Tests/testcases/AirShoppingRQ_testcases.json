@@ -14,7 +14,8 @@
       "Include valid PaxList with ADT, GBE, CHD"
     ],
     "expected_result": "HTTP 200 OK with non-empty list of flight offers; each offer contains price, airline, and flight times",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -29,7 +30,8 @@
       "Include valid PaxList with single ADT"
     ],
     "expected_result": "HTTP 200 OK with non-empty list of flight offers",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -42,7 +44,8 @@
       "Set OriginDepCriteria.Date to '2025-05-07'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing origin",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -55,7 +58,8 @@
       "Set OriginDepCriteria.Date to '2025-05-07'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid IATA code format",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -68,7 +72,8 @@
       "Set DestArrivalCriteria.IATA_LocationCode to 'JNB'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating past date not allowed",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -80,7 +85,8 @@
       "Set return OriginDepCriteria.Date to '2025-05-07'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid date sequence",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -92,7 +98,8 @@
       "Set PaxList to empty array"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing passenger information",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -104,7 +111,8 @@
       "Set valid origin and destination"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid date format",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -117,7 +125,8 @@
       "Set OriginDepCriteria.Date to '2025-05-07'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating identical origin and destination",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -129,7 +138,8 @@
       "Set valid origin, destination, and dates"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing cabin type",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_011",
@@ -144,7 +154,8 @@
       "Include valid PaxList"
     ],
     "expected_result": "HTTP 200 OK with non-empty list of flight offers matching multi-city request",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_012",
@@ -157,7 +168,8 @@
       "Set OriginDepCriteria.Date to '2025-05-07'"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid characters in IATA code",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_013",
@@ -169,7 +181,8 @@
       "Create PaxList with 9 ADT passengers"
     ],
     "expected_result": "HTTP 200 OK with non-empty list of flight offers",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_014",
@@ -182,7 +195,8 @@
       "Set DestArrivalCriteria.IATA_LocationCode to 'JNB'"
     ],
     "expected_result": "HTTP 200 OK with non-empty list of flight offers",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_015",
@@ -194,6 +208,7 @@
       "Set valid origin, destination, and dates"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing preference level",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   }
 ]
