@@ -10,7 +10,8 @@
       "Verify HTTP 200 response"
     ],
     "expected_result": "Response contains totalPrice field with numeric value > 0 matching the offer",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -23,7 +24,8 @@
       "Verify HTTP 200 response"
     ],
     "expected_result": "Response contains totalPrice field with numeric value > 0 and includes passenger breakdown",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -34,7 +36,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message 'offerId is required'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -45,7 +48,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message 'Invalid offerId format'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -56,7 +60,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 404 Not Found with error message 'Offer not found'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -67,7 +72,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 410 Gone with error message 'Offer expired'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -79,7 +85,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message 'Passenger details required'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -91,7 +98,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message 'At least one passenger required'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -103,7 +111,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "Response contains totalPrice field with numeric value > 0",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -114,7 +123,8 @@
       "Content-Type header set to application/json"
     ],
     "expected_result": "HTTP 400 Bad Request with error message 'Invalid JSON format'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_011",
@@ -126,7 +136,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "Response contains totalPrice field with numeric value > 0",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_012",
@@ -136,6 +147,7 @@
       "Send GET request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 405 Method Not Allowed with Allow header containing POST",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   }
 ]
