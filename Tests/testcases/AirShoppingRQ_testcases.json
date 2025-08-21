@@ -16,7 +16,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 200 with non-empty list of flight offers; each offer contains price, airline, and flight times",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -30,7 +31,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 200 with list of one-way flight offers",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -43,7 +45,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 200 with flight offers filtered for Economy cabin",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -55,7 +58,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with error message indicating missing origin",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -67,7 +71,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with validation error for invalid IATA code",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -79,7 +84,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 or 422 with error indicating past date not allowed",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -91,7 +97,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with error message indicating missing destination",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -103,7 +110,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with error indicating PaxList is required",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -115,7 +123,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with validation error for CabinTypeCode",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -127,7 +136,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 404 or 422 with error indicating no routes found",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_011",
@@ -139,7 +149,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 or 422 with error indicating invalid date sequence",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_012",
@@ -151,7 +162,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with validation error for missing PrefLevelCode",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_013",
@@ -163,7 +175,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 200 with flight offers accommodating passenger mix",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_014",
@@ -174,7 +187,8 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 with validation error for date format",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_015",
@@ -186,6 +200,7 @@
       "POST AirShoppingRQ"
     ],
     "expected_result": "HTTP 400 or 422 with error indicating invalid route",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   }
 ]
