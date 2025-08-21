@@ -10,7 +10,8 @@
       "Include three SelectedOfferItems with valid OfferItemRefIDs and PaxRefIDs"
     ],
     "expected_result": "HTTP 200 with PricedOffer containing total price and breakdown for each passenger type",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -22,7 +23,8 @@
       "Include at least one SelectedOfferItem per offer"
     ],
     "expected_result": "HTTP 200 with PricedOffer containing total prices for each offer",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -32,7 +34,8 @@
       "Send POST /OfferPriceRQ with SelectedOffer missing OfferRefID element"
     ],
     "expected_result": "HTTP 400 with error message 'OfferRefID is required'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -42,7 +45,8 @@
       "Send POST /OfferPriceRQ with OfferRefID 'invalid-format'"
     ],
     "expected_result": "HTTP 400 with error message 'Invalid OfferRefID format'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -52,7 +56,8 @@
       "Send POST /OfferPriceRQ with SelectedOffer missing OwnerCode element"
     ],
     "expected_result": "HTTP 400 with error message 'OwnerCode is required'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -62,7 +67,8 @@
       "Send POST /OfferPriceRQ with empty SelectedOfferList"
     ],
     "expected_result": "HTTP 400 with error message 'At least one SelectedOffer is required'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -72,7 +78,8 @@
       "Send POST /OfferPriceRQ with SelectedOfferItem containing OfferItemRefID 'invalid-id'"
     ],
     "expected_result": "HTTP 404 with error message 'Offer item not found'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -82,7 +89,8 @@
       "Send POST /OfferPriceRQ with SelectedOfferItem missing PaxRefID"
     ],
     "expected_result": "HTTP 400 with error message 'PaxRefID is required for each SelectedOfferItem'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -92,7 +100,8 @@
       "Send POST /OfferPriceRQ with OfferRefID '00000000-0000-0000-0000-000000000000|invalid'"
     ],
     "expected_result": "HTTP 404 with error message 'Offer not found'",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -102,7 +111,8 @@
       "Send POST /OfferPriceRQ with SelectedOffer containing no SelectedOfferItems"
     ],
     "expected_result": "HTTP 200 with PricedOffer showing total price as 0.00",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_011",
@@ -112,7 +122,8 @@
       "Send POST /OfferPriceRQ with OfferRefID containing special characters like <script>"
     ],
     "expected_result": "HTTP 400 with error message 'Invalid characters in OfferRefID'",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_012",
@@ -122,6 +133,7 @@
       "Send POST /OfferPriceRQ with two SelectedOfferItems having same PaxRefID"
     ],
     "expected_result": "HTTP 200 with PricedOffer containing aggregated price for duplicate passengers",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   }
 ]
