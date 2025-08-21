@@ -1,0 +1,119 @@
+[
+  {
+    "test_case_id": "TC_001",
+    "description": "Valid single-passenger one-way flight offer price request",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID for a one-way flight",
+      "Include one adult passenger",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response"
+    ],
+    "expected_result": "API returns totalPrice object with currency and amount fields populated correctly",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_002",
+    "description": "Valid multi-passenger round-trip flight offer price request",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID for a round-trip flight",
+      "Include 2 adults and 1 child passenger",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response"
+    ],
+    "expected_result": "API returns totalPrice object with aggregated price for all passengers",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_003",
+    "description": "Missing required offer ID in request",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload without offer ID field",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns HTTP 400 with error message indicating missing offer ID",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_004",
+    "description": "Invalid offer ID format",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with offer ID as empty string",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns HTTP 400 with validation error for invalid offer ID",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_005",
+    "description": "Non-existent offer ID",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with random UUID that doesn't exist",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns HTTP 404 with error message indicating offer not found",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_006",
+    "description": "Valid request with special service codes",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID including special service codes (SSR)",
+      "Include baggage and meal preferences",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns totalPrice including additional service charges",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_007",
+    "description": "Expired offer ID",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with offer ID that has expired",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns HTTP 410 with error message indicating offer has expired",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_008",
+    "description": "Valid request with infant passenger",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include 1 adult and 1 infant passenger",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns totalPrice with infant pricing correctly calculated",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_009",
+    "description": "Malformed JSON payload",
+    "test_type": "Negative",
+    "test_steps": [
+      "Send POST request to OfferPriceRQ endpoint with malformed JSON",
+      "Missing closing brace in payload"
+    ],
+    "expected_result": "API returns HTTP 400 with parse error message",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_010",
+    "description": "Valid request with loyalty program number",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with valid offer ID",
+      "Include frequent flyer number in passenger details",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "API returns totalPrice with any applicable discounts applied",
+    "priority": "Low"
+  }
+]
