@@ -10,7 +10,8 @@
       "Verify HTTP 200 response"
     ],
     "expected_result": "API returns totalPrice object with currency and amount fields populated correctly",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -23,7 +24,8 @@
       "Verify HTTP 200 response"
     ],
     "expected_result": "API returns totalPrice object with aggregated price for all passengers",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -34,7 +36,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns HTTP 400 with error message indicating missing offer ID",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -45,7 +48,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns HTTP 400 with validation error for invalid offer ID",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -56,7 +60,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns HTTP 404 with error message indicating offer not found",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -68,7 +73,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns totalPrice including additional service charges",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -79,7 +85,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns HTTP 410 with error message indicating offer has expired",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -91,7 +98,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns totalPrice with infant pricing correctly calculated",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -102,7 +110,8 @@
       "Missing closing brace in payload"
     ],
     "expected_result": "API returns HTTP 400 with parse error message",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -114,6 +123,7 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "API returns totalPrice with any applicable discounts applied",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   }
 ]
