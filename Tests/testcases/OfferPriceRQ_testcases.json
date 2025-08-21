@@ -11,7 +11,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total price for the selected offer",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_002",
@@ -25,7 +26,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total prices for both selected offers",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_003",
@@ -38,7 +40,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating OfferRefID is required",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_004",
@@ -51,7 +54,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid OfferRefID format",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_005",
@@ -65,7 +69,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating OwnerCode is required",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_006",
@@ -76,7 +81,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating at least one offer must be selected",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_007",
@@ -90,7 +96,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 404 Not Found with error message indicating offer not found",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_008",
@@ -104,7 +111,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating at least one SelectedOfferItem is required",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_009",
@@ -118,7 +126,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid passenger reference",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_010",
@@ -132,7 +141,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 410 Gone with error message indicating offer has expired",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_011",
@@ -146,7 +156,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total price for the selected offer",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "OfferPriceRQ_012",
@@ -160,6 +171,7 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid OwnerCode format",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   }
 ]
