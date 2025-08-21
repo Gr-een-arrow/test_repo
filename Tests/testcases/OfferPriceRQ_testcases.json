@@ -1,0 +1,125 @@
+[
+  {
+    "test_case_id": "TC_001",
+    "description": "Valid single offer with correct OfferRefID and OfferItemRefIDs returns total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList containing one SelectedOffer",
+      "Set OfferRefID to 'a2716059-ee3b-487c-8a63-d72a8c7810a7|am9f9wivlT9SV0Wd7zNRI7001'",
+      "Set OwnerCode to 'VS'",
+      "Include three SelectedOfferItem elements with correct OfferItemRefIDs and PaxRefIDs",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with PricedOffer containing total price for the selected offer",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_002",
+    "description": "Valid multiple offers in SelectedOfferList return total price for each",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList containing two distinct SelectedOffer elements",
+      "Ensure each offer has unique OfferRefID and matching OfferItemRefIDs",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with PricedOffer containing total prices for both offers",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_003",
+    "description": "Missing OfferRefID in SelectedOffer returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Omit OfferRefID element from SelectedOffer",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating missing OfferRefID",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_004",
+    "description": "Invalid OfferRefID format returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Set OfferRefID to 'invalid-format'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating invalid OfferRefID format",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_005",
+    "description": "Non-existent OfferRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Set OfferRefID to '00000000-0000-0000-0000-000000000000|invalid'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 404 Not Found with error message indicating offer not found",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_006",
+    "description": "Missing OwnerCode in SelectedOffer returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Omit OwnerCode element from SelectedOffer",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating missing OwnerCode",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "TC_007",
+    "description": "Empty SelectedOfferItem list returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Include SelectedOffer with no SelectedOfferItem elements",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating no offer items selected",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_008",
+    "description": "Mismatched OfferItemRefID prefix returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Set OfferRefID to 'a2716059-ee3b-487c-8a63-d72a8c7810a7|am9f9wivlT9SV0Wd7zNRI7001'",
+      "Set OfferItemRefID to 'different-offer-id|item-1'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating OfferItemRefID mismatch",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "TC_009",
+    "description": "Valid offer with special characters in PaxRefID returns total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with SelectedOfferList",
+      "Set PaxRefID to 'ADULT_1_SPECIAL'",
+      "Ensure all other fields are valid",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with PricedOffer containing total price",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "TC_010",
+    "description": "Empty SelectedOfferList returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with empty SelectedOfferList",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message indicating empty offer list",
+    "priority": "Medium"
+  }
+]
