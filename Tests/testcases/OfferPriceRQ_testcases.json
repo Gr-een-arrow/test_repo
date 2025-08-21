@@ -11,7 +11,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total price for the selected offer",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_002",
@@ -23,7 +24,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total prices for both offers",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_003",
@@ -35,7 +37,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing OfferRefID",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_004",
@@ -47,7 +50,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating invalid OfferRefID format",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_005",
@@ -59,7 +63,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 404 Not Found with error message indicating offer not found",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_006",
@@ -71,7 +76,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating missing OwnerCode",
-    "priority": "High"
+    "priority": "High",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_007",
@@ -83,7 +89,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating no offer items selected",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_008",
@@ -96,7 +103,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating OfferItemRefID mismatch",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_009",
@@ -109,7 +117,8 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 200 OK with PricedOffer containing total price",
-    "priority": "Low"
+    "priority": "Low",
+    "change_note": "UNCHANGED"
   },
   {
     "test_case_id": "TC_010",
@@ -120,6 +129,7 @@
       "Send POST request to OfferPriceRQ endpoint"
     ],
     "expected_result": "HTTP 400 Bad Request with error message indicating empty offer list",
-    "priority": "Medium"
+    "priority": "Medium",
+    "change_note": "UNCHANGED"
   }
 ]
