@@ -1,0 +1,117 @@
+[
+  {
+    "test_case_id": "OfferPriceRQ_001",
+    "description": "Valid single adult passenger request returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with one OfferItemRefID and PaxRefID=ADULT_1",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response",
+      "Parse response to extract total price"
+    ],
+    "expected_result": "Response contains totalPrice field with numeric value > 0 and matches expected fare for adult",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_002",
+    "description": "Valid multi-passenger request (adult, young, child) returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with three OfferItemRefIDs and corresponding PaxRefIDs (ADULT_1, YOUNG_1, CHILD_1)",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate sum of individual prices equals totalPrice"
+    ],
+    "expected_result": "Response contains totalPrice equal to sum of individual passenger prices",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_003",
+    "description": "Missing OfferItemRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload omitting OfferItemRefID",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'OfferItemRefID is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_004",
+    "description": "Invalid OfferItemRefID format returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with malformed OfferItemRefID 'invalid-format'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 422 Unprocessable Entity with error message 'Invalid OfferItemRefID format'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_005",
+    "description": "Missing PaxRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with OfferItemRefID but no PaxRefID",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'PaxRefID is required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_006",
+    "description": "Non-existent OfferItemRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with non-existent OfferItemRefID '00000000-0000-0000-0000-000000000000|invalid'",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 404 Not Found with error message 'Offer item not found'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_007",
+    "description": "Valid request with special characters in OfferItemRefID returns price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with OfferItemRefID containing allowed special characters",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 with valid totalPrice returned",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_008",
+    "description": "Empty OfferItemRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with empty string for OfferItemRefID",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error message 'OfferItemRefID cannot be empty'",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_009",
+    "description": "Valid request with maximum allowed passengers returns correct total",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with maximum allowed passengers (e.g., 9 passengers)",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify totalPrice calculation"
+    ],
+    "expected_result": "HTTP 200 with totalPrice equal to sum of all passenger prices",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_010",
+    "description": "Duplicate OfferItemRefID returns error",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare OfferPriceRQ payload with duplicate OfferItemRefID entries",
+      "Send POST request to OfferPriceRQ endpoint"
+    ],
+    "expected_result": "HTTP 422 Unprocessable Entity with error message 'Duplicate OfferItemRefID not allowed'",
+    "priority": "Low"
+  }
+]
